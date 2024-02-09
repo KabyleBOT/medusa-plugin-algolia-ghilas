@@ -293,8 +293,10 @@ function getInventoryQuantity(product) {
 
 const addProductCategoriesRelations =
 	async (product, container) => {
+		const productService =
+			container.productService;
 		const productWithCategories =
-			await container.productService_.retrieve(
+			await productService.retrieve(
 				product.id,
 				{
 					relations: productRelations,
