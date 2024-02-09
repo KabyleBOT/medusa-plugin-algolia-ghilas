@@ -3,7 +3,7 @@ name: Publish to npm
 on:
   push:
     branches:
-      - main # Set the branch on which the action should run
+      - master # Set the branch on which the action should run
 
 jobs:
   publish-npm:
