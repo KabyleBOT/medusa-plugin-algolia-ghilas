@@ -1,3 +1,10 @@
+import { defaultSearchIndexingProductRelations } from "@medusajs/utils";
+
+const productRelations = [
+	...defaultSearchIndexingProductRelations,
+	"categories",
+];
+
 // Helper functions
 function getCheapestVariant(variants) {
 	return variants.reduce(
@@ -284,6 +291,23 @@ function getInventoryQuantity(product) {
 	return inventoryQuantity;
 }
 
+const addProductCategoriesRelations =
+	async (product, container) => {
+		const productWithCategories =
+			await container.productService_.retrieve(
+				product.id,
+				{
+					relations: productRelations,
+				}
+			);
+		if (!productWithCategories) {
+			throw new Error(
+				`Product not found for id: ${product.id}`
+			);
+		}
+		return productWithCategories;
+	};
+
 // Main function
 export async function algoliaProductTransformerForEuro(
 	product,
@@ -292,17 +316,9 @@ export async function algoliaProductTransformerForEuro(
 	container.logger.info(
 		`Transforming product ${product.id}`
 	);
-	console.trace();
+
 	const productOptions =
 		processProductOptions(product);
-
-	const [
-		productTaxonomies,
-		hierarchicalTaxonomies,
-	] = await processProductTaxonomies(
-		product,
-		container
-	);
 
 	const pricingService =
 		container.pricingService;
@@ -326,7 +342,22 @@ export async function algoliaProductTransformerForEuro(
 			return decoratedProductArray?.[0]?.[0];
 		});
 
+	const productWithCategories =
+		await addProductCategoriesRelations(
+			product,
+			container
+		);
+
+	const [
+		productTaxonomies,
+		hierarchicalTaxonomies,
+	] = await processProductTaxonomies(
+		productWithCategories,
+		container
+	);
+
 	const transformedProduct = {
+		...productWithCategories,
 		...pricedProduct,
 	};
 
