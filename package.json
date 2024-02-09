@@ -2,22 +2,23 @@
 	"name": "medusa-plugin-algolia-ghilas",
 	"version": "0.0.2",
 	"description": "Medusa plugin to sync products with Algolia",
+	"main": "index.js",
 	"author": "Khaled Belkouche <khaled.belkouche@assalas.com>",
 	"license": "MIT",
 	"keywords": [
-		"algolia",
-		"sqlite",
-		"postgres",
-		"typescript",
-		"ecommerce",
-		"headless",
-		"medusa"
+		"medusa-plugin",
+		"medusa-plugin-notification",
+		"medusa-plugin-sendgrid",
+		"medusa-plugin-ghilas"
+	],
+	"files": [
+		"dist"
 	],
 	"scripts": {
-		"clean": "cross-env ./node_modules/.bin/rimraf dist",
-		"build": "cross-env npm run clean && npm run build:server",
-		"build:server": "cross-env npm run clean && tsc -p tsconfig.json",
-		"prepare": "cross-env NODE_ENV=production npm run build:server"
+		"prepublishOnly": "cross-env NODE_ENV=production tsc --build",
+		"test": "jest --passWithNoTests src",
+		"build": "rimraf dist && tsc -p ./tsconfig.server.json",
+		"watch": "tsc --watch"
 	},
 	"dependencies": {
 		"@medusajs/medusa": "1.20.0",
