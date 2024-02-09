@@ -1,14 +1,14 @@
 {
 	"name": "medusa-plugin-algolia-ghilas",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Medusa plugin to sync products with Algolia for ghilas",
 	"main": "index.js",
 	"author": "Khaled Belkouche <khaled.belkouche@assalas.com>",
 	"license": "MIT",
 	"keywords": [
 		"medusa-plugin",
-		"medusa-plugin-notification",
-		"medusa-plugin-sendgrid",
+		"medusa-plugin-search",
+		"medusa-plugin-algolia",
 		"medusa-plugin-ghilas"
 	],
 	"files": [
