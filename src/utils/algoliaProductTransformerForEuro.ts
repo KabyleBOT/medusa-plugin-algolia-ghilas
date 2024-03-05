@@ -6,6 +6,25 @@ const productRelations = [
 ];
 
 // Helper functions
+
+function getProductMaterialsFromVariants(
+	variants
+) {
+	const materialSet = new Set();
+	variants.forEach((variant) => {
+		let material: string =
+			variant?.material;
+		// make sur the first letter is uppercase
+		material =
+			material
+				?.charAt(0)
+				.toUpperCase() +
+			material?.slice(1);
+		materialSet.add(material);
+	});
+	return [...materialSet];
+}
+
 function getCheapestVariant(variants) {
 	return variants.reduce(
 		(acc, curr) =>
@@ -414,6 +433,11 @@ export async function algoliaProductTransformerForEuro(
 					transformedProduct.original_price
 				);
 		}
+
+		transformedProduct.main_materials =
+			getProductMaterialsFromVariants(
+				pricedProduct.variants
+			);
 	}
 
 	return {
