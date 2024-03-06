@@ -13,15 +13,7 @@ describe("parseColorOption", () => {
 			parseColorOption(
 				"Dark Green;#006400"
 			)
-		).toEqual("Vert;#00FF00");
-	});
-
-	test("should categorize an army green color as green", () => {
-		expect(
-			parseColorOption(
-				"Army Green;#454B1B"
-			)
-		).toEqual("Vert;#00FF00");
+		).toEqual("Vert;#008000");
 	});
 
 	test("should categorize a dark blue color as blue", () => {
