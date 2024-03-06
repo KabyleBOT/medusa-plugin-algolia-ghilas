@@ -54,11 +54,179 @@ function calculatePercentageDifference(
 	);
 }
 
+type ColorCategory = {
+	name:
+		| "Rouge"
+		| "Vert"
+		| "Bleu"
+		| "Noir"
+		| "Blanc"
+		| "Gris"
+		| "Jaune"
+		| "Cyan"
+		| "Magenta"
+		| "Multicolore"
+		| "Autre";
+	hexCode: string;
+};
+
+const colorCategories: Record<
+	string,
+	ColorCategory
+> = {
+	Rouge: {
+		name: "Rouge",
+		hexCode: "#FF0000",
+	},
+	Vert: {
+		name: "Vert",
+		hexCode: "#00FF00",
+	},
+	Bleu: {
+		name: "Bleu",
+		hexCode: "#0000FF",
+	},
+	Noir: {
+		name: "Noir",
+		hexCode: "#000000",
+	},
+	Blanc: {
+		name: "Blanc",
+		hexCode: "#FFFFFF",
+	},
+	Gris: {
+		name: "Gris",
+		hexCode: "#808080",
+	},
+	Jaune: {
+		name: "Jaune",
+		hexCode: "#FFFF00",
+	},
+	Cyan: {
+		name: "Cyan",
+		hexCode: "#00FFFF",
+	},
+	Magenta: {
+		name: "Magenta",
+		hexCode: "#FF00FF",
+	},
+	Multicolore: {
+		name: "Multicolore",
+		hexCode: "#FFFFFF",
+	}, // Assign a default hex code for Multicolore
+	Autre: {
+		name: "Autre",
+		hexCode: "#FFFFFF",
+	}, // Assign a default hex code for Autre
+};
+
+function parseColorOption(
+	option: string
+): string {
+	const colorHexCode =
+		option.split(";")[1];
+
+	let principalColor: ColorCategory =
+		colorCategories["Multicolore"];
+
+	if (colorHexCode) {
+		if (
+			!/^#[0-9A-F]{6}$/i.test(
+				colorHexCode
+			)
+		) {
+			throw new Error(
+				"Invalid hex color code"
+			);
+		}
+
+		const rgb = parseInt(
+			colorHexCode.substring(1),
+			16
+		);
+		const red = (rgb >> 16) & 0xff;
+		const green = (rgb >> 8) & 0xff;
+		const blue = rgb & 0xff;
+
+		if (
+			red > 200 &&
+			green < 50 &&
+			blue < 50
+		)
+			principalColor =
+				colorCategories["Rouge"];
+		else if (
+			green > 200 &&
+			red < 50 &&
+			blue < 50
+		)
+			principalColor =
+				colorCategories["Vert"];
+		else if (
+			blue > 200 &&
+			red < 50 &&
+			green < 50
+		)
+			principalColor =
+				colorCategories["Bleu"];
+		else if (
+			red < 30 &&
+			green < 30 &&
+			blue < 30
+		)
+			principalColor =
+				colorCategories["Noir"];
+		else if (
+			red > 220 &&
+			green > 220 &&
+			blue > 220
+		)
+			principalColor =
+				colorCategories["Blanc"];
+		else if (
+			red > 100 &&
+			green > 100 &&
+			blue > 100 &&
+			red < 200 &&
+			green < 200 &&
+			blue < 200
+		)
+			principalColor =
+				colorCategories["Gris"];
+		else if (
+			red > 200 &&
+			green > 200 &&
+			blue < 50
+		)
+			principalColor =
+				colorCategories["Jaune"];
+		else if (
+			red < 50 &&
+			green > 200 &&
+			blue > 200
+		)
+			principalColor =
+				colorCategories["Cyan"];
+		else if (
+			red > 200 &&
+			green < 50 &&
+			blue > 200
+		)
+			principalColor =
+				colorCategories["Magenta"];
+		else
+			principalColor =
+				colorCategories["Autre"];
+	}
+
+	return `${principalColor.name};${principalColor.hexCode}`;
+}
+
 // Optimization 1: Use Set instead of Array for unique values
-function getOptionValue(
+const getOptionValue = (
 	option,
 	variants
-) {
+) => {
 	const { id } = option;
 	const values = new Set(
 		variants.reduce((acc, variant) => {
@@ -71,9 +239,9 @@ function getOptionValue(
 		}, new Set())
 	);
 	return values.size === 1
-		? [...values][0]
-		: [...values];
-}
+		? ([...values][0] as string)
+		: ([...values] as string[]);
+};
 
 function processProductOptions(
 	product
@@ -86,11 +254,35 @@ function processProductOptions(
 	) {
 		product.options.forEach(
 			(option) => {
-				productOptions[option.title] =
+				const optionTitle =
+					option.title;
+				const optionValues =
 					getOptionValue(
 						option,
 						product.variants
 					);
+
+				if (optionTitle === "Color") {
+					if (
+						Array.isArray(optionValues)
+					) {
+						productOptions[
+							optionTitle
+						] = optionValues.map(
+							(value) =>
+								parseColorOption(value)
+						);
+					} else {
+						productOptions[
+							optionTitle
+						] = parseColorOption(
+							optionValues
+						);
+					}
+				} else {
+					productOptions[optionTitle] =
+						optionValues;
+				}
 			}
 		);
 	}
