@@ -1,42 +1,57 @@
-// Import the function you want to test
 import { parseColorOption } from "../parseColorOption";
 
 describe("parseColorOption", () => {
-	test("should correctly parse and categorize a basic color", () => {
-		expect(
-			parseColorOption("Red;#FF0000")
-		).toEqual("Rouge;#FF0000");
+	it("should return the correct color name and hex code for a valid color option", () => {
+		const input = "Blanc;#FFFFFF";
+		const output =
+			parseColorOption(input);
+		expect(output).toEqual(
+			"Blanc;#FFFFFF"
+		);
 	});
 
-	test("should categorize a dark green color as green", () => {
-		expect(
-			parseColorOption(
-				"Dark Green;#006400"
-			)
-		).toEqual("Vert;#008000");
+	it("should return the correct color name and hex code for a valid color option", () => {
+		const input = "Beige;#F6E6D1";
+		const output =
+			parseColorOption(input);
+		expect(output).toEqual(
+			"Beige;#F6E6D1"
+		);
 	});
 
-	test("should categorize a dark blue color as blue", () => {
-		expect(
-			parseColorOption(
-				"Dark Blue;#00008B"
-			)
-		).toEqual("Bleu;#0000FF");
+	it("should return the correct color name and hex code for a valid color option", () => {
+		const input = "Gris Chiné;#D3E3DE";
+		const output =
+			parseColorOption(input);
+		expect(output).toEqual(
+			"Gris Chiné;#D3E3DE"
+		);
 	});
 
-	test("should categorize navy blue as blue", () => {
-		expect(
-			parseColorOption(
-				"Navy Blue;#000080"
-			)
-		).toEqual("Bleu;#0000FF");
+	it("should return the correct color name and hex code for a valid color option", () => {
+		const input = "Gris;#C0C0C0";
+		const output =
+			parseColorOption(input);
+		expect(output).toEqual(
+			"Gris;#C0C0C0"
+		);
 	});
 
-	test("should return Multicolore for missing hex code", () => {
-		expect(
-			parseColorOption("Any Color;")
-		).toEqual("Multicolore;#FFFFFF");
+	it("should return the correct color name and hex code for a valid color option", () => {
+		const input = "Anthracite;#474747";
+		const output =
+			parseColorOption(input);
+		expect(output).toEqual(
+			"Anthracite;#474747"
+		);
 	});
 
-	// Add more tests as needed
+	it('should return "Multicolore;#FFFFFF" for an invalid color option', () => {
+		const input = "Invalid";
+		const output =
+			parseColorOption(input);
+		expect(output).toEqual(
+			"Multicolore;#FFFFFF"
+		);
+	});
 });
