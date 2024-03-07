@@ -54,24 +54,22 @@ class HexCodeToColorName {
 	}
 
 	private names: any[] = [
-		//  list of colors of the web for fashion
 		["FFFFFF", "Blanc"],
-		["C0C0C0", "Argenté"],
-		["808080", "Gris"],
-		["F5F5DC", "Beige"],
+		["F6E6D1", "Beige"],
+		["D3E3DE", "Gris Chiné"],
+		["C0C0C0", "Gris"],
+		["474747", "Anthracite"],
 		["000000", "Noir"],
+		["633000", "Marron"],
 		["FF0000", "Rouge"],
-		["800000", "Marron"],
-		["FFFF00", "Jaune"],
-		["FFA500", "Orange"],
-		["FFD700", "Doré"],
-		["808000", "Vert Olive"],
-		["008000", "Vert"],
-		["40E0D0", "Turquoise"],
-		["16738f", "Bleu Pétrole"],
-		["0000FF", "Bleu"],
-		["800080", "Violet"],
-		["FFC0CB", "Rose"],
+		["FF8000", "Orange"],
+		["00FF00", "Jaune"],
+		["62763A", "Kaki"],
+		["00D000", "Vert"],
+		["0070FF", "Bleu"],
+		["103060", "Bleu Marine"],
+		["A000FF", "Violet"],
+		["FFA0D0", "Rose"],
 	];
 
 	name(color: string) {
