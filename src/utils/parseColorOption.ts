@@ -63,7 +63,7 @@ class HexCodeToColorName {
 		["633000", "Marron"],
 		["FF0000", "Rouge"],
 		["FF8000", "Orange"],
-		["00FF00", "Jaune"],
+		["FFFF00", "Jaune"],
 		["62763A", "Kaki"],
 		["00D000", "Vert"],
 		["0070FF", "Bleu"],

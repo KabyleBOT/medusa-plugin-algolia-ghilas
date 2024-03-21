@@ -37,6 +37,23 @@ export function processProductOptions(
 							optionValues
 						);
 					}
+				}
+				if (optionTitle === "Size") {
+					if (
+						Array.isArray(optionValues)
+					) {
+						productOptions[
+							optionTitle
+						] = optionValues.map(
+							(value) => {
+								return value.split("|");
+							}
+						);
+					} else {
+						productOptions[
+							optionTitle
+						] = optionValues.split("|");
+					}
 				} else {
 					productOptions[optionTitle] =
 						optionValues;
