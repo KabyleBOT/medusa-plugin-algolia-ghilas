@@ -37,6 +37,7 @@ export function processProductOptions(
 							optionValues
 						);
 					}
+					return;
 				}
 				if (optionTitle === "Size") {
 					if (
@@ -54,10 +55,11 @@ export function processProductOptions(
 							optionTitle
 						] = optionValues.split("|");
 					}
-				} else {
-					productOptions[optionTitle] =
-						optionValues;
+					return;
 				}
+
+				productOptions[optionTitle] =
+					optionValues;
 			}
 		);
 	}
