@@ -1,10 +1,5 @@
-import { defaultSearchIndexingProductRelations } from "@medusajs/utils";
-import { productAdapterWithEuro } from "./productAdapterWithEuro";
-
-const productRelations = [
-	...defaultSearchIndexingProductRelations,
-	"categories",
-];
+import { productAdapter } from "ghilas-utils";
+import { productRelations } from "./productRelations";
 
 // Main function
 export async function algoliaProductTransformerForEuro(
@@ -24,7 +19,7 @@ export async function algoliaProductTransformerForEuro(
 		`Transforming product ${product.id}`
 	);
 
-	return await productAdapterWithEuro({
+	return await productAdapter({
 		product,
 		logger,
 		pricingService,

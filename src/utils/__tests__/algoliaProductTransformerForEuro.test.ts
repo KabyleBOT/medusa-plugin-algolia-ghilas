@@ -579,6 +579,11 @@ describe("algoliaProductTransformerForEuro", () => {
 		mockContainer.productCategoryService.retrieve.mockResolvedValue(
 			[mockProduct.categories[0]]
 		);
+		mockContainer.logger.info.mockImplementation(
+			(message) => {
+				console.log(message);
+			}
+		);
 
 		const result =
 			await algoliaProductTransformerForEuro(

@@ -8,13 +8,9 @@ import {
 	IEventBusService,
 	ISearchService,
 } from "@medusajs/types";
-import { defaultSearchIndexingProductRelations } from "@medusajs/utils";
-import { indexTypes } from "medusa-core-utils";
 
-const productRelations = [
-	...defaultSearchIndexingProductRelations,
-	"categories",
-];
+import { productRelations } from "../utils/productRelations";
+import { indexTypes } from "medusa-core-utils";
 
 type InjectedDependencies = {
 	eventBusService: IEventBusService;

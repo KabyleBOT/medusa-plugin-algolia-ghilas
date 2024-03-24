@@ -12,7 +12,7 @@ import {
 	SearchOptions,
 } from "../types";
 import { transformProduct } from "../utils/transformer";
-import filterPublishedProducts from "../utils/filter-published-products";
+import { filterPublishedProducts } from "ghilas-utils";
 
 class AlgoliaSearchService extends AbstractSearchService {
 	isDefault = false;
