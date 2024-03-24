@@ -6,6 +6,7 @@ import { getProductMaterialsFromVariants } from "./getProductMaterialsFromVarian
 import { processProductOptions } from "./processProductOptions";
 import { processProductTaxonomies } from "./processProductTaxonomies";
 import { defaultSearchIndexingProductRelations } from "@medusajs/utils";
+import { getPricedProduct } from "./getPricedProduct";
 
 const productRelations = [
 	...defaultSearchIndexingProductRelations,

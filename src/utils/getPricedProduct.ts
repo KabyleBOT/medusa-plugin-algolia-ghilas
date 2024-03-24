@@ -1,4 +1,4 @@
-const getPricedProduct = async ({
+export const getPricedProduct = async ({
 	product,
 	currencyCode,
 	pricingService,
