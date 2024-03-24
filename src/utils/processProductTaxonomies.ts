@@ -2,10 +2,15 @@ import { categoryExistsInHierarchy } from "./categoryExistsInHierarchy";
 import { findCategoryAndCreateHierarchy } from "./findCategoryAndCreateHierarchy";
 import { getRootCategory } from "./getRootCategory";
 
-export async function processProductTaxonomies(
+export async function processProductTaxonomies({
 	product,
-	container
-) {
+	productCategoryService,
+	logger,
+}: {
+	product: any;
+	productCategoryService: any;
+	logger: any;
+}) {
 	const productTaxonomies = {};
 	let hierarchicalTaxonomies = {};
 	let MainSections = [];
@@ -17,10 +22,12 @@ export async function processProductTaxonomies(
 			product.categories.map(
 				async (category) => {
 					const taxonomyObject =
-						await getRootCategory(
+						await getRootCategory({
 							category,
-							container
-						);
+							productCategoryService:
+								productCategoryService,
+							logger: logger,
+						});
 
 					const taxnomyName =
 						taxonomyObject?.name;

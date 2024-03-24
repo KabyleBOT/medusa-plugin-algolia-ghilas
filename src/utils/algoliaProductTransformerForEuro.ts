@@ -1,58 +1,60 @@
-import { addProductCategoriesRelations } from "./addProductCategoriesRelations";
+import { decorateProductWithRelations } from "./decorateProductWithRelations";
 import { calculatePercentageDifference } from "./calculatePercentageDifference";
 import { getCheapestVariant } from "./getCheapestVariant";
 import { getInventoryQuantity } from "./getInventoryQuantity";
 import { getProductMaterialsFromVariants } from "./getProductMaterialsFromVariants";
 import { processProductOptions } from "./processProductOptions";
 import { processProductTaxonomies } from "./processProductTaxonomies";
+import { defaultSearchIndexingProductRelations } from "@medusajs/utils";
+
+const productRelations = [
+	...defaultSearchIndexingProductRelations,
+	"categories",
+];
 
 // Main function
 export async function algoliaProductTransformerForEuro(
 	product,
 	container
 ) {
-	container.logger.info(
+	const logger = container.logger;
+	const pricingService =
+		container.pricingService;
+	const productCategoryService =
+		container.productCategoryService;
+	const productService =
+		container.productService;
+	const currencyCode = "eur";
+
+	logger.info(
 		`Transforming product ${product.id}`
 	);
 
 	const productOptions =
 		processProductOptions(product);
 
-	const pricingService =
-		container.pricingService;
-	const currencyCode = "eur";
-	const decoratePromises = [];
-
-	decoratePromises.push(
-		pricingService.setProductPrices(
-			[product],
-			{
-				currency_code: currencyCode,
-				include_discount_prices: true,
-			}
-		)
-	);
-
 	const pricedProduct =
-		await Promise.all(
-			decoratePromises
-		).then((decoratedProductArray) => {
-			return decoratedProductArray?.[0]?.[0];
+		await getPricedProduct({
+			product,
+			currencyCode,
+			pricingService,
 		});
 
 	const productWithCategories =
-		await addProductCategoriesRelations(
+		await decorateProductWithRelations({
 			product,
-			container
-		);
+			productService,
+			productRelations,
+		});
 
 	const [
 		productTaxonomies,
 		hierarchicalTaxonomies,
-	] = await processProductTaxonomies(
-		productWithCategories,
-		container
-	);
+	] = await processProductTaxonomies({
+		product: productWithCategories,
+		productCategoryService,
+		logger,
+	});
 
 	const transformedProduct = {
 		...productWithCategories,

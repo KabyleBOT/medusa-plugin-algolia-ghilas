@@ -1,10 +1,13 @@
-export async function getRootCategory(
+export async function getRootCategory({
 	category,
-	container
-) {
+	productCategoryService,
+	logger,
+}: {
+	category: any;
+	productCategoryService: any;
+	logger: any;
+}) {
 	let currentCategory = category;
-	const productCategoryService =
-		container.productCategoryService;
 
 	if (
 		currentCategory.parent_category_id ===
@@ -26,7 +29,7 @@ export async function getRootCategory(
 			);
 
 		if (!currentCategory) {
-			container.logger.error(
+			logger.error(
 				`Parent Category not found for : ${name} with id: ${parentId}`
 			);
 		}
