@@ -1,4 +1,5 @@
 import { getOptionValue } from "./getOptionValue";
+import { getProductCondition } from "./getProductCondition";
 import { parseColorOption } from "./parseColorOption";
 
 export function processProductOptions(
@@ -54,6 +55,31 @@ export function processProductOptions(
 						productOptions[
 							optionTitle
 						] = optionValues.split("|");
+					}
+					return;
+				}
+				if (
+					optionTitle === "Condition"
+				) {
+					if (
+						Array.isArray(optionValues)
+					) {
+						productOptions[
+							optionTitle
+						] = optionValues.map(
+							(value) =>
+								getProductCondition({
+									id: parseInt(value),
+								})
+						);
+					} else {
+						productOptions[
+							optionTitle
+						] = getProductCondition({
+							id: parseInt(
+								optionValues
+							),
+						});
 					}
 					return;
 				}
