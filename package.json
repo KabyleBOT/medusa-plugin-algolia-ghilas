@@ -1,6 +1,6 @@
 {
 	"name": "medusa-plugin-algolia-ghilas",
-	"version": "0.0.27",
+	"version": "0.0.28",
 	"description": "Medusa plugin to sync products with Algolia for ghilas",
 	"main": "index.js",
 	"author": "Khaled Belkouche <khaled.belkouche@assalas.com>",
